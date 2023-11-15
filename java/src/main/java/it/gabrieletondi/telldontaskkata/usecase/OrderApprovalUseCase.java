@@ -13,9 +13,6 @@ public class OrderApprovalUseCase {
     public void run(OrderApprovalRequest request) {
         final Order order = orderRepository.getById(request.getOrderId());
 
-        if (order.isShipped()) {
-            throw new ShippedOrdersCannotBeChangedException();
-        }
 
         order.updateStatus(request.isApproved());
         orderRepository.save(order);
