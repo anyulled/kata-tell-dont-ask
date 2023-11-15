@@ -1,14 +1,11 @@
-package it.gabrieletondi.telldontaskkata.useCase;
+package it.gabrieletondi.telldontaskkata.usecase;
 
 public class SellItemRequest {
-    private int quantity;
-    private String productName;
+    private final int quantity;
+    private final String productName;
 
-    public void setQuantity(int quantity) {
+    public SellItemRequest(String productName, int quantity) {
         this.quantity = quantity;
-    }
-
-    public void setProductName(String productName) {
         this.productName = productName;
     }
 

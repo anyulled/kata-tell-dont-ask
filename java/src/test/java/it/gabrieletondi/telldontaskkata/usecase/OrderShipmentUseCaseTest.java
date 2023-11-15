@@ -1,29 +1,29 @@
-package it.gabrieletondi.telldontaskkata.useCase;
+package it.gabrieletondi.telldontaskkata.usecase;
 
 import it.gabrieletondi.telldontaskkata.domain.Order;
+import it.gabrieletondi.telldontaskkata.domain.OrderBuilder;
 import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import it.gabrieletondi.telldontaskkata.doubles.TestShipmentService;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.junit.jupiter.api.Test;
-
-public class OrderShipmentUseCaseTest {
+class OrderShipmentUseCaseTest {
     private final TestOrderRepository orderRepository = new TestOrderRepository();
     private final TestShipmentService shipmentService = new TestShipmentService();
     private final OrderShipmentUseCase useCase = new OrderShipmentUseCase(orderRepository, shipmentService);
 
     @Test
-    public void shipApprovedOrder() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setId(1);
-        initialOrder.setStatus(OrderStatus.APPROVED);
+    void shipApprovedOrder() {
+        Order initialOrder = new OrderBuilder()
+                .withId(1)
+                .withStatus(OrderStatus.APPROVED)
+                .createOrder();
         orderRepository.addOrder(initialOrder);
 
-        OrderShipmentRequest request = new OrderShipmentRequest();
-        request.setOrderId(1);
+        OrderShipmentRequest request = new OrderShipmentRequest(1);
 
         useCase.run(request);
 
@@ -32,14 +32,14 @@ public class OrderShipmentUseCaseTest {
     }
 
     @Test
-    public void createdOrdersCannotBeShipped() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setId(1);
-        initialOrder.setStatus(OrderStatus.CREATED);
+    void createdOrdersCannotBeShipped() {
+        Order initialOrder = new OrderBuilder()
+                .withId(1)
+                .withStatus(OrderStatus.CREATED)
+                .createOrder();
         orderRepository.addOrder(initialOrder);
 
-        OrderShipmentRequest request = new OrderShipmentRequest();
-        request.setOrderId(1);
+        OrderShipmentRequest request = new OrderShipmentRequest(1);
 
         assertThatThrownBy(() -> useCase.run(request)).isExactlyInstanceOf(OrderCannotBeShippedException.class);
 
@@ -48,14 +48,15 @@ public class OrderShipmentUseCaseTest {
     }
 
     @Test
-    public void rejectedOrdersCannotBeShipped() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setId(1);
-        initialOrder.setStatus(OrderStatus.REJECTED);
+    void rejectedOrdersCannotBeShipped() {
+        Order initialOrder = new OrderBuilder()
+                .withId(1)
+                .withStatus(OrderStatus.REJECTED)
+                .createOrder();
+
         orderRepository.addOrder(initialOrder);
 
-        OrderShipmentRequest request = new OrderShipmentRequest();
-        request.setOrderId(1);
+        OrderShipmentRequest request = new OrderShipmentRequest(1);
 
         assertThatThrownBy(() -> useCase.run(request)).isExactlyInstanceOf(OrderCannotBeShippedException.class);
         assertThat(orderRepository.getSavedOrder()).isNull();
@@ -63,14 +64,14 @@ public class OrderShipmentUseCaseTest {
     }
 
     @Test
-    public void shippedOrdersCannotBeShippedAgain() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setId(1);
-        initialOrder.setStatus(OrderStatus.SHIPPED);
+    void shippedOrdersCannotBeShippedAgain() {
+        Order initialOrder = new OrderBuilder()
+                .withId(1)
+                .withStatus(OrderStatus.SHIPPED)
+                .createOrder();
         orderRepository.addOrder(initialOrder);
 
-        OrderShipmentRequest request = new OrderShipmentRequest();
-        request.setOrderId(1);
+        OrderShipmentRequest request = new OrderShipmentRequest(1);
 
         assertThatThrownBy(() -> useCase.run(request)).isExactlyInstanceOf(OrderCannotBeShippedTwiceException.class);
 
