@@ -1,6 +1,13 @@
 import Product from './Product';
 
 class OrderItem {
+  constructor(product: Product, quantity: number, taxAmount: number, taxedAmount: number) {
+    this.product = product;
+    this.quantity = quantity;
+    this.tax = taxAmount;
+    this.taxedAmount = taxedAmount;
+  }
+
   private product: Product;
   private quantity: number;
   private taxedAmount: number;
@@ -10,33 +17,18 @@ class OrderItem {
     return this.product;
   }
 
-  public setProduct(product: Product): void {
-    this.product = product;
-  }
-
   public getQuantity(): number {
-      return this.quantity;
-  }
-
-  public setQuantity(quantity: number): void {
-    this.quantity = quantity;
+    return this.quantity;
   }
 
   public getTaxedAmount(): number {
     return this.taxedAmount;
   }
 
-  public setTaxedAmount(taxedAmount: number): void {
-    this.taxedAmount = taxedAmount;
-  }
-
   public getTax(): number {
     return this.tax;
   }
 
-  public setTax(tax: number): void {
-    this.tax = tax;
-  }
 }
 
 export default OrderItem;

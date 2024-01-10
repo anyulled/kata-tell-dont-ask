@@ -1,10 +1,20 @@
-import SellItemRequest from "./SellItemRequest";
+import SellItemRequest from './SellItemRequest';
 
 class SellItemsRequest {
+
+
+  constructor() {
+    this.requests = [];
+  }
+
+  public addRequest(request: SellItemRequest): void {
+    this.requests.push(request);
+  }
+
   private requests: SellItemRequest[];
 
   public setRequests(requests: SellItemRequest[]): void {
-      this.requests = requests;
+    this.requests = requests;
   }
 
   public getRequests(): SellItemRequest[] {

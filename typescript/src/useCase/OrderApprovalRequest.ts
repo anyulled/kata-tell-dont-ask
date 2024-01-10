@@ -1,4 +1,9 @@
 class OrderApprovalRequest {
+  constructor(orderId: number, approved: boolean) {
+    this.orderId = orderId;
+    this.approved = approved;
+  }
+
   private orderId: number;
   private approved: boolean;
 
