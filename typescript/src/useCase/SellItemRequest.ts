@@ -4,8 +4,8 @@ class SellItemRequest {
     this.quantity = quantity;
   }
 
-  private quantity: number;
-  private productName: string;
+  private readonly quantity: number;
+  private readonly productName: string;
 
   public getQuantity(): number {
     return this.quantity;

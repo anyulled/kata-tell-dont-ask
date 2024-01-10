@@ -49,7 +49,6 @@ describe('OrderApprovalUseCase', () => {
 
   it('unknownProduct', () => {
     const request: SellItemsRequest = new SellItemsRequest();
-    request.setRequests([]);
     const unknownProductRequest: SellItemRequest = new SellItemRequest('unknown product', -1);
     request.getRequests().push(unknownProductRequest);
 

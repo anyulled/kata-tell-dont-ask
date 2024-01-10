@@ -43,9 +43,6 @@ describe('OrderApprovalUseCase', () => {
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest(1, true);
-    request.setOrderId(1);
-    request.setApproved(true);
-
     expect(() => useCase.run(request)).toThrow(RejectedOrderCannotBeApprovedException);
     expect(orderRepository.getSavedOrder()).toBe(null);
   });
@@ -74,9 +71,6 @@ describe('OrderApprovalUseCase', () => {
     orderRepository.addOrder(initialOrder);
 
     const request: OrderApprovalRequest = new OrderApprovalRequest(1, false);
-    request.setOrderId(1);
-    request.setApproved(false);
-
     expect(() => useCase.run(request)).toThrow(ShippedOrdersCannotBeChangedException);
     expect(orderRepository.getSavedOrder()).toBe(null);
   });

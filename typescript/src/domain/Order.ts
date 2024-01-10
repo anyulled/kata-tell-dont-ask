@@ -4,8 +4,17 @@ import OrderApprovalRequest from '../useCase/OrderApprovalRequest';
 import ShippedOrdersCannotBeChangedException from '../useCase/ShippedOrdersCannotBeChangedException';
 import RejectedOrderCannotBeApprovedException from '../useCase/RejectedOrderCannotBeApprovedException';
 import ApprovedOrderCannotBeRejectedException from '../useCase/ApprovedOrderCannotBeRejectedException';
+import OrderCannotBeShippedException from '../useCase/OrderCannotBeShippedException';
+import OrderCannotBeShippedTwiceException from '../useCase/OrderCannotBeShippedTwiceException';
 
 class Order {
+  private total: number;
+  private readonly currency: string;
+  private readonly items: OrderItem[];
+  private tax: number;
+  private status: OrderStatus;
+  private readonly id: number;
+
   constructor(status: OrderStatus, identifier: number, currency: string = 'EUR') {
     this.status = status;
     this.id = identifier;
@@ -47,25 +56,36 @@ class Order {
     this.total += item.getTaxedAmount();
   }
 
-  private total: number;
-  private currency: string;
-  private items: OrderItem[];
-  private tax: number;
-  private status: OrderStatus;
-  private id: number;
+  public approveOrReject(request: OrderApprovalRequest): void {
+    this.status = request.isApproved() ? OrderStatus.APPROVED : OrderStatus.REJECTED;
+  }
+
+  public approve(request: OrderApprovalRequest): void {
+    this.verifyApprovalStatus(request);
+    this.approveOrReject(request);
+  }
+
+  public isCreated(): boolean {
+    return this.status === OrderStatus.CREATED;
+  }
+
+  public verifyIsShippable(): void {
+    if (this.isCreated() || this.isRejected()) {
+      throw new OrderCannotBeShippedException();
+    }
+
+    if (this.isShipped()) {
+      throw new OrderCannotBeShippedTwiceException();
+    }
+  }
 
   public getTotal(): number {
     return this.total;
   }
 
-  public setTotal(total: number): void {
-    this.total = total;
-  }
-
   public getCurrency(): string {
     return this.currency;
   }
-
 
   public getItems(): OrderItem[] {
     return this.items;
@@ -73,10 +93,6 @@ class Order {
 
   public getTax(): number {
     return this.tax;
-  }
-
-  public setTax(tax: number): void {
-    this.tax = tax;
   }
 
   public getStatus(): OrderStatus {

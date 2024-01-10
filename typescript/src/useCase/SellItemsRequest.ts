@@ -2,6 +2,7 @@ import SellItemRequest from './SellItemRequest';
 
 class SellItemsRequest {
 
+  private requests: SellItemRequest[];
 
   constructor() {
     this.requests = [];
@@ -10,8 +11,6 @@ class SellItemsRequest {
   public addRequest(request: SellItemRequest): void {
     this.requests.push(request);
   }
-
-  private requests: SellItemRequest[];
 
   public setRequests(requests: SellItemRequest[]): void {
     this.requests = requests;
