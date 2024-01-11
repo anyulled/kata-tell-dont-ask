@@ -1,6 +1,8 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
 import it.gabrieletondi.telldontaskkata.usecase.ApprovedOrderCannotBeRejectedException;
+import it.gabrieletondi.telldontaskkata.usecase.OrderCannotBeShippedException;
+import it.gabrieletondi.telldontaskkata.usecase.OrderCannotBeShippedTwiceException;
 import it.gabrieletondi.telldontaskkata.usecase.RejectedOrderCannotBeApprovedException;
 import it.gabrieletondi.telldontaskkata.usecase.ShippedOrdersCannotBeChangedException;
 
@@ -32,6 +34,16 @@ public class Order {
         this.tax = tax;
         this.status = status;
         this.id = id;
+    }
+
+    public void verifyOrderIsShippable() {
+        if (isCreated() || isRejected()) {
+            throw new OrderCannotBeShippedException();
+        }
+
+        if (isShipped()) {
+            throw new OrderCannotBeShippedTwiceException();
+        }
     }
 
     public boolean isCreated() {
@@ -82,11 +94,11 @@ public class Order {
         if (isShipped()) {
             throw new ShippedOrdersCannotBeChangedException();
         }
-        if (requestIsApproved && this.status.equals(OrderStatus.REJECTED)) {
+        if (requestIsApproved && isRejected()) {
             throw new RejectedOrderCannotBeApprovedException();
         }
 
-        if (!requestIsApproved && this.status.equals(OrderStatus.APPROVED)) {
+        if (!requestIsApproved && isApproved()) {
             throw new ApprovedOrderCannotBeRejectedException();
         }
         this.status = (requestIsApproved ? OrderStatus.APPROVED : OrderStatus.REJECTED);
@@ -94,11 +106,12 @@ public class Order {
 
     public void addItem(OrderItem orderItem) {
         this.items.add(orderItem);
-        this.total = this.total.add(orderItem.getTaxedAmount());
-        this.tax = this.tax.add(orderItem.getTax());
+        this.total = this.total.add(orderItem.taxedAmount());
+        this.tax = this.tax.add(orderItem.tax());
     }
 
     public void ship() {
+        verifyOrderIsShippable();
         this.status = OrderStatus.SHIPPED;
     }
 }

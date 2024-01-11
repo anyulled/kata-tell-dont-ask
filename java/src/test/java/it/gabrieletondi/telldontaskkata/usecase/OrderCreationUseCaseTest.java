@@ -46,16 +46,16 @@ class OrderCreationUseCaseTest {
             softAssertions.assertThat(insertedOrder.getTax()).isEqualTo(new BigDecimal("2.30"));
             softAssertions.assertThat(insertedOrder.getCurrency()).isEqualTo("EUR");
             softAssertions.assertThat(insertedOrder.getItems()).hasSize(2);
-            softAssertions.assertThat(insertedOrder.getItems().get(0).getProduct().getName()).isEqualTo("salad");
-            softAssertions.assertThat(insertedOrder.getItems().get(0).getProduct().getPrice()).isEqualTo(new BigDecimal("3.56"));
-            softAssertions.assertThat(insertedOrder.getItems().get(0).getQuantity()).isEqualTo(2);
-            softAssertions.assertThat(insertedOrder.getItems().get(0).getTaxedAmount()).isEqualTo(new BigDecimal("7.92"));
-            softAssertions.assertThat(insertedOrder.getItems().get(0).getTax()).isEqualTo(new BigDecimal("0.80"));
-            softAssertions.assertThat(insertedOrder.getItems().get(1).getProduct().getName()).isEqualTo("tomato");
-            softAssertions.assertThat(insertedOrder.getItems().get(1).getProduct().getPrice()).isEqualTo(new BigDecimal("4.65"));
-            softAssertions.assertThat(insertedOrder.getItems().get(1).getQuantity()).isEqualTo(3);
-            softAssertions.assertThat(insertedOrder.getItems().get(1).getTaxedAmount()).isEqualTo(new BigDecimal("15.45"));
-            softAssertions.assertThat(insertedOrder.getItems().get(1).getTax()).isEqualTo(new BigDecimal("1.50"));
+            softAssertions.assertThat(insertedOrder.getItems().get(0).product().getName()).isEqualTo("salad");
+            softAssertions.assertThat(insertedOrder.getItems().get(0).product().getPrice()).isEqualTo(new BigDecimal("3.56"));
+            softAssertions.assertThat(insertedOrder.getItems().get(0).quantity()).isEqualTo(2);
+            softAssertions.assertThat(insertedOrder.getItems().get(0).taxedAmount()).isEqualTo(new BigDecimal("7.92"));
+            softAssertions.assertThat(insertedOrder.getItems().get(0).tax()).isEqualTo(new BigDecimal("0.80"));
+            softAssertions.assertThat(insertedOrder.getItems().get(1).product().getName()).isEqualTo("tomato");
+            softAssertions.assertThat(insertedOrder.getItems().get(1).product().getPrice()).isEqualTo(new BigDecimal("4.65"));
+            softAssertions.assertThat(insertedOrder.getItems().get(1).quantity()).isEqualTo(3);
+            softAssertions.assertThat(insertedOrder.getItems().get(1).taxedAmount()).isEqualTo(new BigDecimal("15.45"));
+            softAssertions.assertThat(insertedOrder.getItems().get(1).tax()).isEqualTo(new BigDecimal("1.50"));
         });
     }
 

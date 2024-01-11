@@ -25,7 +25,7 @@ public class OrderCreationUseCase {
                 .createOrder();
 
         for (SellItemRequest itemRequest : request.getRequests()) {
-            Product product = productCatalog.getByName(itemRequest.getProductName());
+            Product product = productCatalog.getByName(itemRequest.productName());
 
             if (product == null) {
                 throw new UnknownProductException();
@@ -33,9 +33,9 @@ public class OrderCreationUseCase {
 
                 final OrderItem orderItem = new OrderItemBuilder()
                         .withProduct(product)
-                        .withQuantity(itemRequest.getQuantity())
-                        .withTax(product.getTaxAmount(itemRequest.getQuantity()))
-                        .withTaxedAmount(product.getTaxedAmount(itemRequest.getQuantity()))
+                        .withQuantity(itemRequest.quantity())
+                        .withTax(product.getTaxAmount(itemRequest.quantity()))
+                        .withTaxedAmount(product.getTaxedAmount(itemRequest.quantity()))
                         .createOrderItem();
                 order.addItem(orderItem);
             }

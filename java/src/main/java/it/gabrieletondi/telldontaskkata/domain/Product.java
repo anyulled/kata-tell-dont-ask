@@ -57,7 +57,7 @@ public class Product {
     public BigDecimal getUnitaryTax() {
         return this.price
                 .divide(BigDecimal.valueOf(100), HALF_UP)
-                .multiply(this.category.getTaxPercentage())
+                .multiply(this.category.taxPercentage())
                 .setScale(2, RoundingMode.HALF_UP);
     }
 }
