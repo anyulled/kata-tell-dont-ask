@@ -72,7 +72,6 @@ class OrderApprovalUseCaseTest {
 
         OrderApprovalRequest request = new OrderApprovalRequest(1, false);
 
-
         assertThatThrownBy(() -> useCase.run(request)).isExactlyInstanceOf(ApprovedOrderCannotBeRejectedException.class);
         assertThat(orderRepository.getSavedOrder()).isNull();
     }
@@ -87,7 +86,6 @@ class OrderApprovalUseCaseTest {
 
         OrderApprovalRequest request = new OrderApprovalRequest(1, false);
 
-
         assertThatThrownBy(() -> useCase.run(request)).isExactlyInstanceOf(ShippedOrdersCannotBeChangedException.class);
         assertThat(orderRepository.getSavedOrder()).isNull();
     }
@@ -101,7 +99,6 @@ class OrderApprovalUseCaseTest {
         orderRepository.addOrder(initialOrder);
 
         OrderApprovalRequest request = new OrderApprovalRequest(1, false);
-
 
         assertThatThrownBy(() -> useCase.run(request)).isExactlyInstanceOf(ShippedOrdersCannotBeChangedException.class);
         assertThat(orderRepository.getSavedOrder()).isNull();
