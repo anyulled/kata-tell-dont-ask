@@ -6,6 +6,7 @@ import it.gabrieletondi.telldontaskkata.domain.Product;
 import it.gabrieletondi.telldontaskkata.doubles.InMemoryProductCatalog;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
+import it.gabrieletondi.telldontaskkata.usecase.exception.UnknownProductException;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 

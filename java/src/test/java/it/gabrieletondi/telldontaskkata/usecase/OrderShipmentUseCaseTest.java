@@ -5,6 +5,8 @@ import it.gabrieletondi.telldontaskkata.domain.OrderBuilder;
 import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import it.gabrieletondi.telldontaskkata.doubles.TestShipmentService;
+import it.gabrieletondi.telldontaskkata.usecase.exception.OrderCannotBeShippedException;
+import it.gabrieletondi.telldontaskkata.usecase.exception.OrderCannotBeShippedTwiceException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
