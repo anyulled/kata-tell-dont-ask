@@ -5,16 +5,7 @@ import java.math.RoundingMode;
 
 import static java.math.RoundingMode.HALF_UP;
 
-public class Product {
-    private String name;
-    private BigDecimal price;
-    private Category category;
-
-    public Product(String name, BigDecimal price, Category category) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-    }
+public record Product(String name, BigDecimal price, Category category) {
 
     public BigDecimal getTaxAmount(int quantity) {
         return getUnitaryTax().multiply(BigDecimal.valueOf(quantity));
@@ -28,30 +19,6 @@ public class Product {
 
     public BigDecimal getUnitaryTaxedAmount() {
         return price.add(getUnitaryTax()).setScale(2, HALF_UP);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public BigDecimal getUnitaryTax() {

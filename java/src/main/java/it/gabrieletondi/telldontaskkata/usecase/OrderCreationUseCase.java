@@ -30,16 +30,15 @@ public class OrderCreationUseCase {
 
             if (product == null) {
                 throw new UnknownProductException();
-            } else {
-
-                final OrderItem orderItem = new OrderItemBuilder()
-                        .withProduct(product)
-                        .withQuantity(itemRequest.quantity())
-                        .withTax(product.getTaxAmount(itemRequest.quantity()))
-                        .withTaxedAmount(product.getTaxedAmount(itemRequest.quantity()))
-                        .createOrderItem();
-                order.addItem(orderItem);
             }
+
+            final OrderItem orderItem = new OrderItemBuilder()
+                    .withProduct(product)
+                    .withQuantity(itemRequest.quantity())
+                    .withTax(product.getTaxAmount(itemRequest.quantity()))
+                    .withTaxedAmount(product.getTaxedAmount(itemRequest.quantity()))
+                    .createOrderItem();
+            order.addItem(orderItem);
         }
 
         orderRepository.save(order);
