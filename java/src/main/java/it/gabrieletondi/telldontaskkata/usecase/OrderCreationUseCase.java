@@ -24,7 +24,7 @@ public class OrderCreationUseCase {
                 .withCurrency("EUR")
                 .createOrder();
 
-        for (SellItemRequest itemRequest : request.getRequests()) {
+        for (SellItemRequest itemRequest : request.requests()) {
             Product product = productCatalog.getByName(itemRequest.productName());
 
             if (product == null) {

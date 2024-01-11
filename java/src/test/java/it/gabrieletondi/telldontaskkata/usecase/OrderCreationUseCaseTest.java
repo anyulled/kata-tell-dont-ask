@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -33,9 +34,7 @@ class OrderCreationUseCaseTest {
         SellItemRequest saladRequest = new SellItemRequest("salad", 2);
         SellItemRequest tomatoRequest = new SellItemRequest("tomato", 3);
 
-        final SellItemsRequest request = new SellItemsRequest();
-        request.addItemRequest(saladRequest);
-        request.addItemRequest(tomatoRequest);
+        final SellItemsRequest request = new SellItemsRequest(List.of(saladRequest, tomatoRequest));
 
         useCase.run(request);
 
@@ -61,9 +60,8 @@ class OrderCreationUseCaseTest {
 
     @Test
     void unknownProduct() {
-        SellItemsRequest request = new SellItemsRequest();
         SellItemRequest unknownProductRequest = new SellItemRequest("unknown product", 1);
-        request.addItemRequest(unknownProductRequest);
+        SellItemsRequest request = new SellItemsRequest(List.of(unknownProductRequest));
 
         assertThatThrownBy(() -> useCase.run(request)).isExactlyInstanceOf(UnknownProductException.class);
     }
