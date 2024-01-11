@@ -1,4 +1,4 @@
-package it.gabrieletondi.telldontaskkata.usecase;
+package it.gabrieletondi.telldontaskkata.usecase.exception;
 
 public class ApprovedOrderCannotBeRejectedException extends RuntimeException {
 }
