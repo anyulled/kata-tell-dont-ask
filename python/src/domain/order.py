@@ -15,6 +15,13 @@ class Order:
     tax: float = 0
     status: OrderStatus = OrderStatus.CREATED
 
+    def __init__(self):
+        super().__init__()
+        self.items = []
+        self.currency = "EUR"
+        self.total = 0
+        self.tax = 0
+
     def is_shipped(self):
         return self.status == OrderStatus.SHIPPED
 
@@ -35,3 +42,8 @@ class Order:
             raise ApprovedOrderCannotBeRejectedException()
 
         self.status = OrderStatus.APPROVED if is_request_approved else OrderStatus.REJECTED
+
+    def add_item(self, item):
+        self.items.append(item)
+        self.total += item.taxed_amount
+        self.tax += item.tax

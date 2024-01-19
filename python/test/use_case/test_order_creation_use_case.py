@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from python.src.domain.category import Category
@@ -29,20 +31,20 @@ class TestOrderCreationUseCase:
 
         inserted_order = self.order_repository.inserted_order
         assert inserted_order.status == OrderStatus.CREATED
-        assert inserted_order.total == 23.20
-        assert inserted_order.tax == 2.13
+        assert math.isclose(inserted_order.total, 23.20)
+        assert math.isclose(inserted_order.tax, 2.13)
         assert inserted_order.currency == 'EUR'
         assert len(inserted_order.items) == 2
         assert inserted_order.items[0].product.name == 'salad'
-        assert inserted_order.items[0].product.price == 3.56
+        assert math.isclose(inserted_order.items[0].product.price, 3.56)
         assert inserted_order.items[0].quantity == 2
-        assert inserted_order.items[0].taxed_amount == 7.84
-        assert inserted_order.items[0].tax == 0.72
+        assert math.isclose(inserted_order.items[0].taxed_amount, 7.84)
+        assert math.isclose(inserted_order.items[0].tax, 0.72)
         assert inserted_order.items[1].product.name == 'tomato'
-        assert inserted_order.items[1].product.price == 4.65
+        assert math.isclose(inserted_order.items[1].product.price, 4.65)
         assert inserted_order.items[1].quantity == 3
-        assert inserted_order.items[1].taxed_amount == 15.36
-        assert inserted_order.items[1].tax == 1.41
+        assert math.isclose(inserted_order.items[1].taxed_amount, 15.36)
+        assert math.isclose(inserted_order.items[1].tax, 1.41)
 
     def test_unknown_product(self):
         request = SellItemsRequest()
@@ -50,4 +52,3 @@ class TestOrderCreationUseCase:
 
         with pytest.raises(UnknownProductException):
             self.use_case.run(request)
-
