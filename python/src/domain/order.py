@@ -48,6 +48,22 @@ class Order:
     def status(self):
         return self.__status
 
+    @property
+    def total(self):
+        return self.__total
+
+    @property
+    def tax(self):
+        return self.__tax
+
+    @property
+    def currency(self):
+        return self.__currency
+
+    @property
+    def items(self):
+        return self.__items
+
     def approve(self, is_request_approved):
         if self.is_shipped():
             raise ShippedOrdersCannotBeChangedException()
