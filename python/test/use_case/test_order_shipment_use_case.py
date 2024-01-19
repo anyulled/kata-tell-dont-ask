@@ -16,7 +16,7 @@ class TestOrderShipmentUseCase:
         self.use_case = OrderShipmentUseCase(self.order_repository, self.shipment_service)
 
     def test_ship_approved_order(self):
-        initial_order = Order(id=1, status=OrderStatus.APPROVED)
+        initial_order = Order(identifier=1, status=OrderStatus.APPROVED)
         self.order_repository.add_order(initial_order)
 
         request = OrderShipmentRequest(order_id=1)
@@ -27,7 +27,7 @@ class TestOrderShipmentUseCase:
         assert self.shipment_service.shipped_order == initial_order
 
     def test_created_orders_cannot_be_shipped(self):
-        initial_order = Order(id=2, status=OrderStatus.CREATED)
+        initial_order = Order(identifier=2, status=OrderStatus.CREATED)
         self.order_repository.add_order(initial_order)
 
         request = OrderShipmentRequest(order_id=2)
@@ -39,7 +39,7 @@ class TestOrderShipmentUseCase:
         assert self.shipment_service.shipped_order is None
 
     def test_rejected_orders_cannot_be_shipped(self):
-        initial_order = Order(id=3, status=OrderStatus.REJECTED)
+        initial_order = Order(identifier=3, status=OrderStatus.REJECTED)
         self.order_repository.add_order(initial_order)
 
         request = OrderShipmentRequest(order_id=3)
@@ -51,7 +51,7 @@ class TestOrderShipmentUseCase:
         assert self.shipment_service.shipped_order is None
 
     def test_shipped_orders_cannot_be_shipped_again(self):
-        initial_order = Order(id=4, status=OrderStatus.SHIPPED)
+        initial_order = Order(identifier=4, status=OrderStatus.SHIPPED)
         self.order_repository.add_order(initial_order)
 
         request = OrderShipmentRequest(order_id=4)

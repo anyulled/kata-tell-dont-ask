@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from .order_item import OrderItem
 from .order_status import OrderStatus
 from ..use_case.exceptions import ShippedOrdersCannotBeChangedException, ApprovedOrderCannotBeRejectedException, \
-    RejectedOrderCannotBeApprovedException
+    RejectedOrderCannotBeApprovedException, OrderCannotBeShippedException, OrderCannotBeShippedTwiceException
 
 
 @dataclass
@@ -15,12 +15,17 @@ class Order:
     tax: float = 0
     status: OrderStatus = OrderStatus.CREATED
 
-    def __init__(self):
+    def __init__(self, identifier=0, status=OrderStatus.CREATED):
         super().__init__()
+        self.id = identifier
+        self.status = status
         self.items = []
         self.currency = "EUR"
         self.total = 0
         self.tax = 0
+
+    def is_created(self):
+        return self.status == OrderStatus.CREATED
 
     def is_shipped(self):
         return self.status == OrderStatus.SHIPPED
@@ -42,6 +47,15 @@ class Order:
             raise ApprovedOrderCannotBeRejectedException()
 
         self.status = OrderStatus.APPROVED if is_request_approved else OrderStatus.REJECTED
+
+    def ship(self):
+        if self.is_created() or self.is_rejected():
+            raise OrderCannotBeShippedException()
+
+        if self.is_shipped():
+            raise OrderCannotBeShippedTwiceException()
+
+        self.status = OrderStatus.SHIPPED
 
     def add_item(self, item):
         self.items.append(item)
